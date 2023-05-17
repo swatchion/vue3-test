@@ -1,0 +1,22 @@
+{
+  "name": "vue-3-vite-template",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "ant-design-vue": "^3.2.20",
+    "axios": "^1.4.0",
+    "vue": "^3.0.7",
+    "vue-router": "^4.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.1.5",
+    "@vue/compiler-sfc": "^3.0.7",
+    "vite": "^2.1.2"
+  },
+  "keywords": [],
+  "description": ""
+}
