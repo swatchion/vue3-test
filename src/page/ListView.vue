@@ -1,16 +1,9 @@
 <script setup>
-
-import DataList from '../components/DataList.vue'
-
+  import DataList from "../components/DataList.vue";
 </script>
 
 <template>
-
-<DataList></DataList>    
-
+  <DataList></DataList>
 </template>
 
-
-<style>
-
-</style>
+<style></style>

@@ -10,7 +10,7 @@ const router = createRouter({
       component: () => import("@/page/HomeView.vue"),
     },
     {
-      path: "/list/:target",
+      path: "/list",
       name: "list-page",
       component: () => import("@/page/ListView.vue"),
     },
