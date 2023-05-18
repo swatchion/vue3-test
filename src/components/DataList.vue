@@ -20,63 +20,72 @@
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      sorter: true,
-      width: "20%",
+      title: "ID",
+      dataIndex: "id",
     },
     {
-      title: "Gender",
-      dataIndex: "gender",
+      title: "Gid",
+      dataIndex: "gid",
+    },
+    {
+      title: "Name",
+      dataIndex: "remote_name",
+    },
+    {
+      title: "Hot",
+      dataIndex: "hot",
       filters: [
         {
-          text: "Male",
-          value: "male",
+          text: "是",
+          value: "1",
         },
         {
-          text: "Female",
-          value: "female",
+          text: "否",
+          value: "0",
         },
       ],
-      width: "20%",
     },
     {
-      title: "Email",
-      dataIndex: "email",
-    },
-    {
-      title: "Nation",
-      dataIndex: "nat",
+      title: "Enabled",
+      dataIndex: "enabled",
       filters: [
         {
-          text: "Canada",
-          value: "CA",
+          text: "是",
+          value: "1",
         },
         {
-          text: "New Zealand",
-          value: "NZ",
+          text: "否",
+          value: "0",
         },
       ],
     },
   ];
 
-  const userRequest = (params = { page, results }) => {
-    return axios.get("https://randomuser.me/api?noinfo", {
+  const userRequest = (params = { current, pageSize }) => {
+    return axios.get("http://127.0.0.1:9501/api/test/data", {
       params,
     });
   };
+
+  // $current = $this->request->input('current', 1);
+  // $pageSize = $this->request->input('pageSize', 10);
+  // $filter = $this->request->input('filter',[]);
+  // $sorter = $this->request->input('sorter',[]);
 
   const { data, run, loading, params, current, pageSize, total } =
     usePagination(userRequest, {
       defaultParams: [
         {
-          page: 1,
-          results: 10,
+          current: 1,
+          pageSize: 10,
+          filter: [],
+          sorter: [],
         },
       ],
       pagination: {
-        currentKey: "page",
-        pageSizeKey: "results",
+        // currentKey: "data.current_page",
+        // pageSizeKey: "data.per_page",
+        totalKey: "data.total",
       },
     });
 
@@ -85,32 +94,41 @@
     // data 是 AjaxResponse: {config,data,headers, request,status, statusText}
     // 其中 AjaxResponse.data 为接口返回的实际 json 数据
     // 对照 dataSource 的计算值为 data.data(响应体Payload).dataRow(应该为数组值)
-    return data.value?.data.results;
+    return data.value?.data.data;
   });
 
   const pagination = computed(() => ({
-    total: 200,
     current: current.value,
     pageSize: pageSize.value,
+    total: total.value,
   }));
 
-  const handleTableChange = (pag, filters, sorter) => {
+  const handleTableChange = (pager, filters, sorter) => {
+    console.log("pager", pager);
+
     run({
-      results: pag.pageSize,
-      page: pag?.current,
-      sortField: sorter.field,
-      sortOrder: sorter.order,
-      ...filters,
+      current: pager?.current,
+      pageSize: pager.pageSize,
     });
   };
 
+  // const handleTableChange = (pag, filters, sorter) => {
+  //   run({
+  //     results: pag.pageSize,
+  //     page: pag?.current,
+  //     sortField: sorter.field,
+  //     sortOrder: sorter.order,
+  //     ...filters,
+  //   });
+  // };
+
   onBeforeMount(() => {
     console.log("Mount data", data);
-    console.log("Mount params", params);
+    console.log("Mount params", params.value);
     console.log("Mount dataSource", dataSource);
-    console.log("Mount current", current);
-    console.log("Mount pageSize", pageSize);
-    console.log("Mount total", total);
+    console.log("Mount current", current.value);
+    console.log("Mount pageSize", pageSize.value);
+    console.log("Mount total", total.value);
   });
 </script>
 
